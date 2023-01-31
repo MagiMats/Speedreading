@@ -1,0 +1,9 @@
+{% extends 'nav.html' %}
+
+{% block body %}
+    <form action="{% url 'books:upload_book' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock body %}

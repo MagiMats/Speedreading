@@ -1,0 +1,37 @@
+{% extends 'nav.html' %}
+
+{% block body %}
+    <h1>Here you can see a list of your books {{user_name}}</h1>
+
+    <ul>
+        {% for book in object_list %}            
+            <li><h2><a href="{% url 'books:detail' book.id %}">{{book.title}}</a></h2></li>
+            <h3>{{book.author.name}}</h3>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+{% block style %}
+<style>
+    body {
+        background-color: var(--xiketic);
+        color: rgb(240, 173, 91);
+    }
+
+    h1 {
+        margin: 5%;
+        margin-bottom: 2%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    h2 {
+        font-weight: bold;
+        text-decoration: underline;
+    }    
+</style>
+
+{% endblock style %}

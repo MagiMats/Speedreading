@@ -1,0 +1,10 @@
+{% extends 'nav.html' %}
+{% block body %}
+<div style="margin:5%">
+    <form action="{% url 'users:login' %}" method="post">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock body %}

@@ -1,0 +1,191 @@
+{% extends 'nav.html' %}
+
+{% block body %}
+<h2>{{object.title}}</h2>
+<h3>{{object.author.name}}</h3>
+
+<div class="reader">
+    <div class="text_reader reader_elem">
+        <div class="word_display">
+            <div class="current_word" id="cword">
+                Template
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="button">Back</button>
+            <button class="button" id="pausebutton">Start</button>
+            <button class="button">Forward</button>
+        </div>
+        <div class="text_display" id="text_display">
+            {{ book_text }}
+        </div>
+    </div>
+    <div class="pdf_reader reader_elem">
+        <iframe src="/media/{{object.book_file}}">
+        </iframe>
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block script %}
+<script defer>
+    let pausebutton;
+    let cword;
+
+    var text = JSON.parse("{{book_text|escapejs}}")
+    const timer = ms => new Promise(res => setTimeout(res, ms));
+    
+    var stop = true;
+
+    function pauser() {
+        return new Promise(resolve => {
+            let playbuttonclick = function () {
+                if (stop == false) {
+                    stop = true;
+                    pausebutton.innerHTML = 'Start'
+                                                  
+                }
+                else {                 
+                    stop = false;
+                    pausebutton.innerHTML = 'Stop'                    
+                }
+                resolve('resolved')
+            }
+            pausebutton.addEventListener('click', playbuttonclick)
+        })
+    }
+
+    async function go() {
+        pausebutton = document.getElementById('pausebutton')
+        cword = document.getElementById('cword')
+        
+        for (let i = 0; i < text.length; i++) {
+            text_words = text[i].split(' ');            
+            for (let j = 0; j < text_words.length; j++) {
+                if (stop == true) await pauser();
+                cword.innerHTML = text_words[j]
+                await timer(300); // then the created Promise can be awaited
+            }
+        }            
+    }
+    go();
+</script>
+{% endblock script %}
+
+{% block style %}
+<style>
+    :root {
+        --bg-color: rgb(44, 44, 44);
+        --turquoise-blue: #10fff6ff;
+        --mandarin: #ef8354ff;
+        --fern-green: #5b7553ff;
+        --xiketic: rgb(23, 26, 37);
+        --xiketic-off: rgb(32, 33, 39);
+        --chocolate-web: #c56f2eff;
+
+        --reader-size: 95%;
+        --txt-color: 
+    }
+
+    body {
+        background-color: var(--xiketic);
+    }
+
+    h1 {
+        margin: 5%;
+        margin-bottom: 2%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    mark {
+        background-color: beige;
+    }
+
+    h2, h3 {
+        margin-left: 3%;
+    }
+
+    h2 {
+        font-weight: bold;
+        text-decoration: underline;
+        font-size: 200%;
+    }    
+
+    .reader {
+        display: flex;
+        flex-direction: row;        
+        height: 75%;
+    }
+
+    .reader_elem {
+        text-align: center;
+    }
+
+    iframe {
+        width: 90%;
+        height: 100%;
+        border-radius: 10px; 
+        border-color: transparent;
+    }
+
+    .text_display {
+        height: 55%;
+        text-align: justify;
+        word-wrap: break-word;
+        background-color: var(--xiketic_nav);
+        border-radius: 10px;
+        overflow: scroll; 
+        padding: 5%;
+    }   
+
+    .word_display {
+        position: relative;
+        height: 25%;
+        background-color: var(--xiketic_nav);
+        border-radius: 10px;
+    }   
+
+    .current_word {
+        width: 50%;
+        position: absolute;
+        top: 40%;
+        left: 25%;
+    }
+
+    .text_reader {
+        margin-left: 3%;
+        width: 30%;
+    }
+
+    .pdf_reader {
+        width: 70%;
+        text-align: center;        
+    }
+
+    .button {
+        display: inline-block;
+        height: 3em;
+        width: 30%;
+        margin: 1%;
+        margin-top: 5%;
+        margin-bottom: 5%;
+
+        background-color: var(--xiketic_nav);
+        border: none;
+        border-radius: 5px;
+        color: var(--basic-headers);
+        font-weight: bold;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .button:active {
+        background-color: var(--xiketic-off);
+    }
+</style>
+
+{% endblock style %}
