@@ -16,8 +16,8 @@
             <button class="button" id="pausebutton">Start</button>
             <button class="button">Forward</button>
         </div>
-        <div class="text_display" id="text_display">
-            {{ book_text }}
+        <div class="text_display_container">
+            <div class="text_display" id="text_display">Press Start</div>
         </div>
     </div>
     <div class="pdf_reader reader_elem">
@@ -28,15 +28,151 @@
 
 {% endblock body %}
 
+{% block style %}
+<style>
+    :root {
+        --bg-color: rgb(44, 44, 44);
+        --turquoise-blue: #10fff6ff;
+        --mandarin: #ef8354ff;
+        --fern-green: #5b7553ff;
+        --xiketic: rgb(23, 26, 37);
+        --xiketic-off: rgb(32, 33, 39);
+        --chocolate-web: #c56f2eff;
+
+        --reader-size: 95%;
+        --txt-color: 
+    }
+
+    .reader {
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+
+    .text_reader {
+        width: 100%;
+        height: 80vh;
+        text-align: center;
+        position: relative;
+    }
+
+    .word_display {
+        position: relative;
+        width: 100%;
+        height: 24%;
+        margin-left: 1%;
+
+        font-size: 30px;
+
+        border-radius: 10px;
+        
+        background-color: var(--xiketic_nav);
+    }
+
+    .current_word { 
+        position: absolute;
+        top: 40%;
+        left: 25%;
+        width: 50%;
+    }
+
+    .buttons {
+        position: absolute;
+        top: 26%;
+        height: 8%;
+        width: 100%;
+        margin-left: 1%;
+
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .button {
+        width: 30%;
+        height: 100%;
+        background-color: var(--xiketic_nav);
+        border: none;
+        border-radius: 5px;
+        color: var(--basic-headers);
+        font-weight: bold;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .text_display_container {
+        position: absolute;
+        top: 36%;
+        height: 60%;
+        width: 90%;
+        margin-left: 1%;
+        padding-left: 5%;
+        padding-right: 5%;
+
+        border-radius: 10px;
+        
+        background-color: var(--xiketic_nav);
+    }
+
+    .text_display {
+        position: absolute;
+        top: 5%;
+        height: 100%;
+        width: 90%;
+        overflow: scroll;
+        text-align: justify;
+        font-size: 20px;        
+    }
+
+    .pdf_reader {
+        width: 100%;
+        height: 80vh;
+        margin-left: 1%;
+
+        text-align: center;
+
+        border-radius: 5px;
+    }
+
+    iframe {
+        width: 95%;
+        height: 95%;
+    }
+
+</style>
+{% endblock style %}
+
 {% block script %}
 <script defer>
     let pausebutton;
     let cword;
 
-    var text = JSON.parse("{{book_text|escapejs}}")
+    var iterator = 0;
+    var stop = true;
+    var text = "{{book_text|escapejs}}"
+    let text_display = document.getElementById('text_display')
+
+    
     const timer = ms => new Promise(res => setTimeout(res, ms));
     
-    var stop = true;
+    var text_words = text.split(' ');
+    
+    let new_text = parse_words(text_words)
+    text_display.innerHTML = new_text;
+
+    go_forward();
+
+    function parse_words(text_words) {
+        let new_text = ''
+
+        for (var i in text_words) {
+            new_text += 
+            '<span id=\'word' + i + '\' onclick="word_click(this.id)">' + 
+                text_words[i] + 
+            '</span> '
+        }
+
+        return new_text
+    }
 
     function pauser() {
         return new Promise(resolve => {
@@ -56,136 +192,53 @@
         })
     }
 
-    async function go() {
+    function word_click(word_id) {
+        className = word_id;
+        id = word_id.substring(4,);
+        prev_iterator = iterator;
+        iterator = id;
+
+        highlighter(prev_iterator, 'transparent')
+        highlighter(iterator, 'beige')
+    }
+
+    async function go_forward() {
+        
         pausebutton = document.getElementById('pausebutton')
         cword = document.getElementById('cword')
-        
-        for (let i = 0; i < text.length; i++) {
-            text_words = text[i].split(' ');            
-            for (let j = 0; j < text_words.length; j++) {
-                if (stop == true) await pauser();
-                cword.innerHTML = text_words[j]
-                await timer(300); // then the created Promise can be awaited
-            }
-        }            
+                
+        for (iterator = 0; iterator < text_words.length; iterator++) {
+            if (stop == true) await pauser();
+            word_highlight_logic(iterator)
+        }
     }
-    go();
+
+    async function word_highlight_logic(iterator) {
+        cword.innerHTML = text_words[iterator]
+
+        if (iterator < 1) {
+            prevword = '';
+        }
+        else {
+            thisword = highlighter(iterator, 'beige');
+            thisword.scrollIntoView({block: 'center'});
+            first_word_highlight()
+
+            await timer(200); // then the created Promise can be awaited
+        }
+    }
+
+    function highlighter(id,colour) {
+        thisword = document.getElementById('word'+ id)
+        thisword.style.backgroundColor = colour;   
+        return thisword
+    }
+
+    function first_word_highlight() {
+        try {
+            highlighter((iterator-1), 'transparent')
+        }
+        catch {console.log('oops')}
+    }
 </script>
 {% endblock script %}
-
-{% block style %}
-<style>
-    :root {
-        --bg-color: rgb(44, 44, 44);
-        --turquoise-blue: #10fff6ff;
-        --mandarin: #ef8354ff;
-        --fern-green: #5b7553ff;
-        --xiketic: rgb(23, 26, 37);
-        --xiketic-off: rgb(32, 33, 39);
-        --chocolate-web: #c56f2eff;
-
-        --reader-size: 95%;
-        --txt-color: 
-    }
-
-    body {
-        background-color: var(--xiketic);
-    }
-
-    h1 {
-        margin: 5%;
-        margin-bottom: 2%;
-    }
-
-    a {
-        text-decoration: none;
-    }
-
-    mark {
-        background-color: beige;
-    }
-
-    h2, h3 {
-        margin-left: 3%;
-    }
-
-    h2 {
-        font-weight: bold;
-        text-decoration: underline;
-        font-size: 200%;
-    }    
-
-    .reader {
-        display: flex;
-        flex-direction: row;        
-        height: 75%;
-    }
-
-    .reader_elem {
-        text-align: center;
-    }
-
-    iframe {
-        width: 90%;
-        height: 100%;
-        border-radius: 10px; 
-        border-color: transparent;
-    }
-
-    .text_display {
-        height: 55%;
-        text-align: justify;
-        word-wrap: break-word;
-        background-color: var(--xiketic_nav);
-        border-radius: 10px;
-        overflow: scroll; 
-        padding: 5%;
-    }   
-
-    .word_display {
-        position: relative;
-        height: 25%;
-        background-color: var(--xiketic_nav);
-        border-radius: 10px;
-    }   
-
-    .current_word {
-        width: 50%;
-        position: absolute;
-        top: 40%;
-        left: 25%;
-    }
-
-    .text_reader {
-        margin-left: 3%;
-        width: 30%;
-    }
-
-    .pdf_reader {
-        width: 70%;
-        text-align: center;        
-    }
-
-    .button {
-        display: inline-block;
-        height: 3em;
-        width: 30%;
-        margin: 1%;
-        margin-top: 5%;
-        margin-bottom: 5%;
-
-        background-color: var(--xiketic_nav);
-        border: none;
-        border-radius: 5px;
-        color: var(--basic-headers);
-        font-weight: bold;
-        text-align: center;
-        font-size: 16px;
-    }
-
-    .button:active {
-        background-color: var(--xiketic-off);
-    }
-</style>
-
-{% endblock style %}

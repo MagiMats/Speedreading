@@ -1,0 +1,99 @@
+
+body {
+    background-color: var(--xiketic);
+}
+
+h1 {
+    margin: 5%;
+    margin-bottom: 2%;
+}
+
+a {
+    text-decoration: none;
+}
+
+mark {
+    background-color: beige;
+}
+
+h2, h3 {
+    margin-left: 3%;
+}
+
+h2 {
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 200%;
+}    
+
+.reader {
+    display: flex;
+    flex-direction: row;        
+    height: 75%;
+}
+
+.reader_elem {
+    text-align: center;
+}
+
+iframe {
+    width: 90%;
+    height: 100%;
+    border-radius: 10px; 
+    border-color: transparent;
+}
+
+.text_display {
+    height: 55%;
+    text-align: justify;
+    word-wrap: break-word;
+    background-color: var(--xiketic_nav);
+    border-radius: 10px;
+    overflow: scroll; 
+    padding: 5%;
+}   
+
+.word_display {
+    position: relative;
+    height: 25%;
+    background-color: var(--xiketic_nav);
+    border-radius: 10px;
+}   
+
+.current_word {
+    width: 50%;
+    position: absolute;
+    top: 40%;
+    left: 25%;
+}
+
+.text_reader {
+    margin-left: 3%;
+    width: 30%;
+}
+
+.pdf_reader {
+    width: 70%;
+    text-align: center;        
+}
+
+.button {
+    display: inline-block;
+    height: 3em;
+    width: 30%;
+    margin: 1%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+    background-color: var(--xiketic_nav);
+    border: none;
+    border-radius: 5px;
+    color: var(--basic-headers);
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+}
+
+.button:active {
+    background-color: var(--xiketic-off);
+}
