@@ -1,0 +1,65 @@
+:root {
+    --reader-size: 95%;
+    --bg-color: rgb(44, 44, 44);
+    --turquoise-blue: #10fff6ff;
+    --mandarin: #ef8354ff;
+    --fern-green: #5b7553ff;
+    --xiketic: rgb(23, 26, 37);
+    --xiketic_nav: rgb(16, 18, 25);
+    --xiketic_nav_hover: rgb(7, 7, 10);
+    --basic-headers: rgb(240, 173, 91);
+    --basic-text: rgb(233, 185, 126);
+
+    --chocolate-web: #c56f2eff;
+
+    --reader-size: 95%;
+    --txt-color:
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--mandarin);
+}
+
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--xiketic_nav);
+}
+
+.nav {
+    float: left;
+}
+
+.nav a {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+    color: var(--basic-headers);
+    font-weight: 800;
+}
+
+.nav a:hover {
+    background-color: var(--xiketic_nav_hover);
+}
+
+body {
+    height: 100%;
+    align-items: center;
+    color: var(--basic-text);
+    background-color: var(--xiketic);
+}
+
+html {
+    height: 100%;
+}

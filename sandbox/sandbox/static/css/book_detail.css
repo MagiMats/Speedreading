@@ -1,0 +1,107 @@
+:root {
+    --bg-color: rgb(44, 44, 44);
+    --turquoise-blue: #10fff6ff;
+    --mandarin: #ef8354ff;
+    --fern-green: #5b7553ff;
+    --xiketic: rgb(23, 26, 37);
+    --xiketic-off: rgb(32, 33, 39);
+    --chocolate-web: #c56f2eff;
+
+    --reader-size: 95%;
+    --txt-color: 
+}
+
+.reader {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.text_reader {
+    width: 100%;
+    height: 80vh;
+    text-align: center;
+    position: relative;
+}
+
+.word_display {
+    position: relative;
+    width: 100%;
+    height: 24%;
+    margin-left: 1%;
+
+    font-size: 30px;
+
+    border-radius: 10px;
+    
+    background-color: var(--xiketic_nav);
+}
+
+.current_word { 
+    position: absolute;
+    top: 40%;
+    left: 25%;
+    width: 50%;
+}
+
+.buttons {
+    position: absolute;
+    top: 26%;
+    height: 8%;
+    width: 100%;
+    margin-left: 1%;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    width: 30%;
+    height: 100%;
+    background-color: var(--xiketic_nav);
+    border: none;
+    border-radius: 5px;
+    color: var(--basic-headers);
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+}
+
+.text_display_container {
+    position: absolute;
+    top: 36%;
+    height: 60%;
+    width: 90%;
+    margin-left: 1%;
+    padding-left: 5%;
+    padding-right: 5%;
+
+    border-radius: 10px;
+    
+    background-color: var(--xiketic_nav);
+}
+
+.text_display {
+    position: absolute;
+    top: 5%;
+    height: 90%;
+    width: 90%;
+    overflow: scroll;
+    text-align: justify;
+    font-size: 20px;        
+}
+
+.pdf_reader {
+    width: 100%;
+    height: 80vh;
+    margin-left: 1%;
+
+    text-align: center;
+
+    border-radius: 5px;
+}
+
+iframe {
+    width: 95%;
+    height: 95%;
+}

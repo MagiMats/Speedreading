@@ -9,6 +9,7 @@ from .forms import BookUploadForm
 from .functions import parse_pdf_to_text_array
 
 import json
+import numpy as np
 
 class BookLoginMixin(LoginRequiredMixin):
     login_url = '/login/'
@@ -39,9 +40,14 @@ class OnLoadGetBookTextDetailView(DetailView, LoginRequiredMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book_file = kwargs['object'].book_file        
-        context['book_text'] = parse_pdf_to_text_array(book_file)
+        context['book_list_text'] = parse_pdf_to_text_array(book_file)
 
         return context
+
+def dim(a):
+    if not type(a) == list:
+        return []
+    return [len(a)] + dim(a[0])
 
 class BookJsonDetailView(DetailView, LoginRequiredMixin):
     model = Book
@@ -50,6 +56,8 @@ class BookJsonDetailView(DetailView, LoginRequiredMixin):
         context = super().get_context_data(**kwargs)
         book_file = kwargs['object'].book_file        
         book_text_array = parse_pdf_to_text_array(book_file)
+
+        context['book_json'] = json.dumps(book_text_array)
         
         return context
 
