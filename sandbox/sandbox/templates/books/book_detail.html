@@ -116,7 +116,7 @@
     .text_display {
         position: absolute;
         top: 5%;
-        height: 100%;
+        height: 90%;
         width: 90%;
         overflow: scroll;
         text-align: justify;
@@ -145,10 +145,8 @@
 <script defer>
     let pausebutton;
     let cword;
-
-    var iterator = 0;
-    var stop = true;
-    var text = "{{book_text|escapejs}}"
+    stop = true;
+    var text = unescape(JSON.parse("{{book_text|escapejs}}"))
     let text_display = document.getElementById('text_display')
 
     
@@ -198,18 +196,32 @@
         prev_iterator = iterator;
         iterator = id;
 
+        console.log('prev: ' + prev_iterator)
+        console.log('new: ' + iterator)
+
         highlighter(prev_iterator, 'transparent')
         highlighter(iterator, 'beige')
     }
 
     async function go_forward() {
-        
         pausebutton = document.getElementById('pausebutton')
         cword = document.getElementById('cword')
                 
         for (iterator = 0; iterator < text_words.length; iterator++) {
+            cword.innerHTML = text_words[iterator]
+
+            if (iterator < 1) {
+                prevword = '';
+            }
+            else {
+                console.log(iterator)
+                thisword = highlighter(iterator, 'beige');
+                thisword.scrollIntoView({block: 'center'});
+                first_word_highlight()
+
+                await timer(200); // then the created Promise can be awaited
+            }
             if (stop == true) await pauser();
-            word_highlight_logic(iterator)
         }
     }
 
@@ -220,6 +232,7 @@
             prevword = '';
         }
         else {
+            console.log(iterator)
             thisword = highlighter(iterator, 'beige');
             thisword.scrollIntoView({block: 'center'});
             first_word_highlight()

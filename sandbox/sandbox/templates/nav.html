@@ -6,9 +6,13 @@
         <ul class="navbar">
             <li class="nav"><a href="{% url 'books:index' %}"   > Books    </a></li>
             <li class="nav"><a href="{% url 'books:upload_book' %}"  > Upload   </a></li>
-            <li class="nav"><a href="{% url 'users:register' %}"> Register </a></li>
-            <li class="nav"><a href="{% url 'users:login' %}"   > Login    </a></li>
-            <li class="nav"><a href="{% url 'users:logout' %}"  > Logout   </a></li>            
+
+            {% if user.is_authenticated %}                
+                <li class="nav"><a href="{% url 'users:logout' %}"  > Logout   </a></li>
+            {% else %}
+                <li class="nav"><a href="{% url 'users:login' %}"   > Login    </a></li>
+                <li class="nav"><a href="{% url 'users:register' %}"> Register </a></li>
+            {% endif %}            
         </ul>
     </header>
     <body>

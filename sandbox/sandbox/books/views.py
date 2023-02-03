@@ -6,7 +6,9 @@ from django.http import HttpResponseRedirect
 
 from books.models import Book
 from .forms import BookUploadForm
-from .functions import parse_text
+from .functions import parse_pdf_to_text_array
+
+import json
 
 class BookLoginMixin(LoginRequiredMixin):
     login_url = '/login/'
@@ -37,9 +39,20 @@ class OnLoadGetBookTextDetailView(DetailView, LoginRequiredMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book_file = kwargs['object'].book_file        
-        context['book_text'] = parse_text(book_file)
+        context['book_text'] = parse_pdf_to_text_array(book_file)
+
+        return context
+
+class BookJsonDetailView(DetailView, LoginRequiredMixin):
+    model = Book
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book_file = kwargs['object'].book_file        
+        book_text_array = parse_pdf_to_text_array(book_file)
         
         return context
+
 
 def upload_book_file_view(request):
     if request.method == 'POST':
@@ -56,7 +69,7 @@ def parse_book_file(request, form):
     instance = form.save(commit = False)
     instance.book_file = request.FILES['book_file']
     instance.save()
-    instance.file_text = parse_text(instance.book_file)
+    instance.file_text = parse_pdf_to_text_array(instance.book_file)
     instance.save()
 
 def succes_view(request):

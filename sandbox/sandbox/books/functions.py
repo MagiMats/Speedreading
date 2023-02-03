@@ -5,7 +5,7 @@ from django.conf import settings
 from json import dumps
 
 
-def parse_text(pdf_path):
+def parse_pdf_to_text_array(pdf_path):
     path = os.path.join(settings.MEDIA_ROOT, str(pdf_path).replace(' ', '_'))
     pdf = fitz.open(path)
     text = ''
@@ -21,6 +21,5 @@ def parse_text(pdf_path):
         text = text.replace('\\n', ' ')
         array_text[i] = text
 
-    arrayJSON = dumps(array_text)
-    return arrayJSON
+    return array_text
 
