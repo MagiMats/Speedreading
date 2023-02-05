@@ -1,6 +1,7 @@
 let pausebutton;
 let cword;
 stop = true;
+let text = JSON.parse(document.getElementById('book_json').textContent)
 let text_display = document.getElementById('text_display');
 
 const timer = ms => new Promise(res => setTimeout(res, ms));

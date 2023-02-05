@@ -34,7 +34,6 @@
 {% endblock body %}
 
 {% block jslinks %}
-<script src="{% static 'js/book_detail.js' %}">
-    var text = "{{ book_json|escape|safe }}";
-</script>
+{{ book_json|json_script:"book_json" }}
+<script src="{% static 'js/book_detail.js' %}"></script>
 {% endblock jslinks %}
