@@ -1,9 +1,25 @@
 {% extends 'main.html' %}
+{% load static %}
+
+{% block csslinks %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
 
 {% block body %}
     <form action="{% url 'books:upload_book' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{form}}
+
+        {% for field in form %}
+            <div class="fieldWrapper">
+                <div class="fieldErrors">{{ field.errors }}</div>
+                <div class="fieldContents">
+                    <span class="fieldLabel">{{ field.label_tag }}</span>
+                    <span class="fieldField">{{ field }}</span>
+                </div>
+            </div>
+        {% endfor %}
+
+
         <input type="submit" value="Submit">
     </form>
 {% endblock body %}

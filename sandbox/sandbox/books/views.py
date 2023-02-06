@@ -71,6 +71,7 @@ def upload_book_file_view(request):
             return HttpResponseRedirect('succes')
     else:
         form = BookUploadForm()
+
     return render(request, 'books/book_upload.html', {'form': form})
 
 def parse_book_file(request, form):
