@@ -19,7 +19,7 @@ def parse_pdf_to_text_array(pdf_path):
         text = repr(text)
         text = text.replace('\\t', ' ')
         text = text.replace('\\n', ' ')
-        array_text[i] =  'PAGE: ' + str(i+1) + ' ' + str(text)
+        array_text[i] =  'PAGE' + str(text)
 
     return array_text
 

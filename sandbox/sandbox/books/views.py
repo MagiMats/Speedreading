@@ -57,8 +57,7 @@ class BookJsonDetailView(DetailView, LoginRequiredMixin):
         book_file = kwargs['object'].book_file        
         book_text_array = parse_pdf_to_text_array(book_file)
 
-        context['book_json'] = json.dumps(book_text_array)
-        
+        context['book_json'] = json.dumps(book_text_array) 
         return context
 
 
