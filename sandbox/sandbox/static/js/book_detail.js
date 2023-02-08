@@ -31,17 +31,12 @@ function word_click(word_id) {
     highlighter(word_iterator, 'beige')
 }
 
-function filter_pages() {
-    for (page_index in pages) {
-        
-    }
-}
-
 async function start_forward() {
     for (page_iterator = 0; page_iterator < pages.length; page_iterator++) {
-        display_page(page_iterator)
+        display_page(page_iterator);
 
         for (word_iterator = 0; word_iterator < page_length; word_iterator++) {
+            if (stop == true) await pauser();
             cword.innerHTML = text_words[word_iterator]
             //We need to reset this loop when we go to a new page
             if (word_iterator < 1) {
@@ -54,7 +49,6 @@ async function start_forward() {
 
                 await timer(200); // then the created Promise can be awaited
             }
-            if (stop == true) await pauser();
         }
     }
 }
@@ -129,7 +123,7 @@ function pauser() {
                 pausebutton.innerHTML = 'Start'
                                               
             }
-            else {                 
+            else if (stop == true) {                 
                 stop = false;
                 pausebutton.innerHTML = 'Stop'                    
             }
