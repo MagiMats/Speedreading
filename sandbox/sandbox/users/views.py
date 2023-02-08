@@ -1,34 +1,21 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View
+from django.views.generic import CreateView
 from .forms import UserCreationForm
 from django.contrib.auth import get_user_model, logout, views
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-
+from .models import User
 
 # Create your views here.
-class RegisterView(View):
+class RegisterView(CreateView):
+    model = User
     template_name = 'users/register.html'
     form_class = UserCreationForm
 
-    def get(self, request):
-        form = self.form_class()
-        message = ''
-
-        return render(request, self.template_name, context={'form': form})
-
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            user = form.save()
-
-            if user is not None:            
-                return HttpResponseRedirect(reverse_lazy('users:login'))
-
-        message = 'Sign up failed!'
-        return render(request, self.template_name, context={'form': form, 'message': message})
-
+    def form_valid(self, form):
+        user = form.save()
+        return HttpReponseRedirect(reverse_lazy('users:login'))
 
 class MyLoginView(views.LoginView):
     template_name = 'users/login.html'
@@ -39,6 +26,7 @@ class MyLoginView(views.LoginView):
     
     def form_invalid(self, form):
         messages.error(self.request,'Invalid username or password')
+        print(self.request)
         return self.render_to_response(self.get_context_data(form=form))
 
 def logout_view(request):

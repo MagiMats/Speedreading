@@ -1,4 +1,6 @@
 from django.db import models
+from users.models import User
+
 
 class Author(models.Model):
     name = models.CharField(max_length=200)
@@ -8,6 +10,7 @@ class Book(models.Model):
     
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     book_file = models.FileField(upload_to='books', null=True)
     file_text = models.TextField(null=True)

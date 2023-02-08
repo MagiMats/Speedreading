@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
-from .models import FreeUser
+from .models import User
 
 # Register your models here.
 class UserCreationForm(forms.ModelForm):
@@ -14,7 +14,7 @@ class UserCreationForm(forms.ModelForm):
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
-        model = FreeUser
+        model = User
         fields = ('user_name','email')
 
     def clean_password2(self):
@@ -42,5 +42,5 @@ class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = FreeUser
+        model = User
         fields = ('user_name', 'email', 'password')
