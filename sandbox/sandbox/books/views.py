@@ -22,14 +22,13 @@ class BookListView(LoginRequiredMixin, ListView):
     
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
-        self.username = request.user.username
+        self.user = request.user
 
-    def get_context_data(self, **kwargs):    
-        context = {
-            'user_name': self.username,
-        }
-        kwargs.update(context)
-        return super().get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):  
+        context = super().get_context_data(**kwargs)
+        context['user_name'] = self.user.username
+        context['object_list'] = context['object_list'][0:self.user.book_amount]
+        return context
 
 class BookDetailView(DetailView, LoginRequiredMixin):
     model = Book

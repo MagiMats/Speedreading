@@ -1,7 +1,10 @@
+{% extends 'main.html' %}
+{% block body %}
 <div style="margin:5%">
     <form action="{% url 'users:register' %}" method="post">
         {% csrf_token %}
-        {{form}}
+        {{form.as_table}}
         <input type="submit" value="Submit">
     </form>
 </div>
+{% endblock %}
