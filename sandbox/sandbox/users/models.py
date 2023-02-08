@@ -5,13 +5,15 @@ from django.contrib.auth.models import (
 
 # Create your models here.
 class User(AbstractBaseUser):
-    user_name = models.CharField(max_length=50)
+    username = models.CharField(max_length=50)
 
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
         unique=True,
     )
+
+    USERNAME_FIELD = 'username'
 
     is_free_user = models.BooleanField(default=True)
     is_slot_user = models.BooleanField(default=False)
