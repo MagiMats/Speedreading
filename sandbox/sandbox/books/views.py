@@ -44,11 +44,6 @@ class OnLoadGetBookTextDetailView(DetailView, LoginRequiredMixin):
 
         return context
 
-def dim(a):
-    if not type(a) == list:
-        return []
-    return [len(a)] + dim(a[0])
-
 class BookJsonDetailView(DetailView, LoginRequiredMixin):
     model = Book
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model, logout, views
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 
@@ -20,7 +21,6 @@ class RegisterView(View):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            print('VALID')
             user = form.save()
 
             if user is not None:            
@@ -30,7 +30,7 @@ class RegisterView(View):
         return render(request, self.template_name, context={'form': form, 'message': message})
 
 
-class LoginView(views.LoginView):
+class MyLoginView(views.LoginView):
     template_name = 'users/login.html'
     redirect_authenticated_user = True
     
@@ -38,7 +38,7 @@ class LoginView(views.LoginView):
         return reverse_lazy('books:index') 
     
     def form_invalid(self, form):
-        print('not a valid person')
+        messages.error(self.request,'Invalid username or password')
         return self.render_to_response(self.get_context_data(form=form))
     
 
