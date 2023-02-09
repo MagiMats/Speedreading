@@ -31,12 +31,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'books.apps.BooksConfig',
-    'users.apps.UsersConfig',
     'custom_users'
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
+AUTH_USER_MODEL = "custom_users.CustomUser"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,7 +50,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'sandbox.urls'
 
-AUTH_USER_MODEL = 'users.MyUser'
+AUTHENTICATION_BACKENDS = ['custom_users.user_backend.EmailBackend']
 
 TEMPLATES = [
     {

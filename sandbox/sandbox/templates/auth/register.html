@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {% block body %}
-<div style="margin:5%">
+<div>
     <form action="{% url 'users:register' %}" method="post">
         {% csrf_token %}
         {{form.as_table}}
