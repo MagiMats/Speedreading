@@ -16,7 +16,7 @@ class BookLoginMixin(LoginRequiredMixin):
     redirect_field_name = 'login'
 
 class BookListView(LoginRequiredMixin, ListView):
-    login_url = 'users/login/'
+    login_url = '/users/login/'
     
     model = Book
     

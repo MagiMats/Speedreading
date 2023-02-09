@@ -7,38 +7,36 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 
-from .models import User
+from .models import MyUser
 from .forms import UserCreationForm, LoginForm
 
 # Create your views here.
 class RegisterView(CreateView):
-    model = User
+    model = MyUser
     template_name = 'users/register.html'
     form_class = UserCreationForm
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
         return HttpResponseRedirect(reverse_lazy('users:login'))
 
 def login_view(request):
     form = LoginForm()
     message = ''
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = LoginForm(data=request.POST)
         if form.is_valid():
-            print('valid')
             user = authenticate(
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password'],
             )
-
-            print(user)
             
-            if user is not None:
-                print(user)
+            if user is not None:        
                 login(request, user)
-                return HttpResponseRedirect('home')
-        message = 'Login failed!'
+                return HttpResponseRedirect('books:index')
+                
+            else:
+                message = 'Login failed!'
         
     return render(request, 'users/login.html', context={'form': form, 'message': message})
 

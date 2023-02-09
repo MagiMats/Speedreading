@@ -32,9 +32,8 @@ INSTALLED_APPS = [
 
     'books.apps.BooksConfig',
     'users.apps.UsersConfig',
+    'custom_users'
 ]
-
-
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
@@ -50,6 +49,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'sandbox.urls'
+
+AUTH_USER_MODEL = 'users.MyUser'
 
 TEMPLATES = [
     {
