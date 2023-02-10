@@ -29,8 +29,6 @@
     height: 24%;
     margin-left: 1%;
 
-    font-size: 30px;
-
     border-radius: 10px;
     
     background-color: var(--xiketic_nav);
@@ -41,6 +39,24 @@
     top: 40%;
     left: 25%;
     width: 50%;
+
+    font-size: 30px;
+}
+
+.wpm_input {
+    position: absolute;
+    top: 80%;
+    left: 1%;
+    width: 8%;
+    border: none;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    text-align: center;
+
+    color: var(--basic-headers);
+    background-color: var(--xiketic_nav);
 }
 
 .buttons {
@@ -88,6 +104,22 @@
     overflow: scroll;
     text-align: justify;
     font-size: 20px;        
+}
+
+.page_input {
+    position: absolute;
+    top: 90%;
+    left: 1%;
+    width: 6%;
+    border: none;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    text-align: center;
+
+    color: var(--basic-headers);
+    background-color: var(--xiketic_nav);
 }
 
 .pdf_reader {

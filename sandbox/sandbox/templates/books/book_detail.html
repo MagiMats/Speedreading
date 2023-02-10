@@ -6,7 +6,7 @@
 {% endblock csslinks %}
 
 {% block body %}
-<h2>{{object.title}}</h2>
+<h2 class="book_title">{{object.title}}</h2>
 <h3>{{object.author.name}}</h3>
 
 <div class="reader">
@@ -15,6 +15,9 @@
             <div class="current_word" id="cword">
                 Template
             </div>
+            <input 
+                type="text" class="wpm_input" id="wpm_input"
+                value="200" inputmode="numeric">
         </div>
         <div class="buttons">
             <button class="button" id="backbutton">Back</button>
@@ -23,6 +26,9 @@
         </div>
         <div class="text_display_container">
             <div class="text_display" id="text_display">Press Start</div>
+            <input 
+                type="text" class="page_input" id="page_input"
+                value="1" inputmode="numeric">
         </div>
     </div>
     <div class="pdf_reader reader_elem">

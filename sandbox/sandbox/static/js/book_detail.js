@@ -2,7 +2,7 @@ let stop = true;
 let page_iterator;
 let word_iterator;
 
-let text = unescape(JSON.parse(document.getElementById('book_json').textContent))
+let text = JSON.parse(document.getElementById('book_json').textContent)
 
 let text_display = document.getElementById('text_display');
 
@@ -10,13 +10,18 @@ let pausebutton = document.getElementById('pausebutton');
 let forwardbutton = document.getElementById('forwardbutton');
 let backbutton = document.getElementById('backbutton');
 
+let wpm_input = document.getElementById('wpm_input');
+let page_input = document.getElementById('page_input');
 let cword = document.getElementById('cword');
 
 forwardbutton.addEventListener('click', page_forward);
 backbutton.addEventListener('click', page_backward);
+wpm_input.addEventListener('change', speed_change);
+page_input.addEventListener('change', jump_page); 
 
 const timer = ms => new Promise(res => setTimeout(res, ms));
-
+let wpm = wpm_input.value;
+checkNan()
 var pages = text.split('PAGE');
 
 start_forward();
@@ -46,8 +51,7 @@ async function start_forward() {
                 thisword = highlighter(word_iterator, 'beige');
                 thisword.scrollIntoView({block: 'center'});
                 first_word_highlight()
-
-                await timer(200); // then the created Promise can be awaited
+                await timer(word_speed); // then the created Promise can be awaited
             }
         }
     }
@@ -67,10 +71,33 @@ function page_backward() {
     display_page(page_iterator);
 }
 
+function jump_page() {
+    if (page_input.value > 1 && page_input.value<pages.length) {
+        page_iterator = page_input.value;
+    }
+    display_page(page_iterator)
+}
+
+function speed_change() {
+    wpm = wpm_input.value;
+    checkNan();
+}
+
+function checkNan() {
+    if (isNaN(wpm)) {
+        wpm_input.value = "NaN"
+        word_speed = 999999;
+    }
+    else {
+        word_speed = (60/wpm)*1000;
+    }
+}
+
 function display_page(page_iterator) {
     text_words = pages[page_iterator].split(' ');
     text_display.innerHTML = parse_words(text_words);
     page_length = text_words.length
+    page_input.value = page_iterator;
     word_iterator = 0;
 }
 
@@ -97,8 +124,7 @@ async function word_highlight_logic(word_iterator) {
         thisword = highlighter(word_iterator, 'beige');
         thisword.scrollIntoView({block: 'center'});
         first_word_highlight()
-
-        await timer(200); // then the created Promise can be awaited
+        await timer(word_speed); // then the created Promise can be awaited
     }
 }
 
